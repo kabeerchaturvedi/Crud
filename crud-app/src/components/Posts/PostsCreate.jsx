@@ -1,16 +1,39 @@
 import { useState } from "react";
 
 const PostsCreate = () => {
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({
+    title: null,
+    about: null,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setIsSubmitting(true);
+
+    const requestBody = { title: formData.title, about: formData.about };
     try {
-      const data = await fetch("https://jsonplaceholder.typicode.com/posts", "POST");
+      const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+      const data = await response.json();
       console.log(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
@@ -23,7 +46,7 @@ const PostsCreate = () => {
                 Title
               </label>
               <div className="mt-2">
-                <input type="text" name="title" placeholder="Enter your Title here" />
+                <input type="text" name="title" placeholder="Enter your Title here" onChange={handleChange} />
               </div>
             </div>
             <div className="col-span-full">
@@ -33,15 +56,27 @@ const PostsCreate = () => {
               <div className="mt-2">
                 <textarea
                   id="body"
-                  name="body"
+                  name="about"
                   rows="3"
                   placeholder="Enter your body data here"
+                  onChange={handleChange}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                 ></textarea>
               </div>
-              <button type="submit" className="btn border-t-neutral-700" disabled={isSubmitting}>
+              <button
+                type="submit"
+                className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                disabled={isSubmitting}
+              >
                 {isSubmitting ? "Submitting" : "Create"}
               </button>
+              <span>
+                <label>
+                  <a href="/posts" className="btn bg-">
+                    Back to Posts
+                  </a>
+                </label>
+              </span>
             </div>
           </div>
         </form>
