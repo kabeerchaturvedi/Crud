@@ -72,7 +72,10 @@ const PostsCreate = () => {
               </button>
               <span>
                 <label>
-                  <a href="/posts" className="btn bg-">
+                  <a
+                    href="/posts"
+                    className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                  >
                     Back to Posts
                   </a>
                 </label>

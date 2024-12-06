@@ -59,9 +59,12 @@ const Posts = () => {
               </td>
               <td className="border border-slate-300 px-4 py-2">
                 <div className="flex space-x-2">
-                  <button className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                    Edit
-                  </button>
+                  <Link
+                    className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                    to={`/posts?id=${post.id}`}
+                  >
+                    Edit{" "}
+                  </Link>
                   <button
                     className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                     onClick={() => deletePosts(post.id)}

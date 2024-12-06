@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/posts" element={<Posts />} />
           <Route path="/posts/add" element={<PostsCreate />} />
-          <Route path="/posts/edit/:id" element={<PostsUpdate />} />
+          <Route path="/posts/id/:id" element={<PostsUpdate />} />
           {/* Error */}
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/500" element={<InternalServerError />} />
