@@ -6,35 +6,44 @@ const PostsCreate = () => {
     about: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (!value.trim()) {
+      setError("This field is required.");
+    } else {
+      setError("");
+    }
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+    // Validate if the input is not empty
+   
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setIsSubmitting(true);
-
-    const requestBody = { title: formData.title, about: formData.about };
-    try {
-      const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
+    if (!error) {
+      const requestBody = { title: formData.title, about: formData.about };
+      try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
+    setIsSubmitting(true);
   };
   return (
     <div className="mt-3 space-y-12">
@@ -63,6 +72,7 @@ const PostsCreate = () => {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"
                 ></textarea>
               </div>
+              {error && <p>{error}</p>}
               <button
                 type="submit"
                 className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
