@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Pagination from "../Pages/Pagination/Pagination";
 
 const Posts = () => {
   const [data, setData] = useState([]);
@@ -30,6 +32,9 @@ const Posts = () => {
     fetchPostsData();
   };
 
+  const handlePagination = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div>
@@ -52,29 +57,32 @@ const Posts = () => {
         </thead>
         <tbody>
           {data.map((post, index) => (
-            <tr key={index}>
-              <td className="border border-slate-300 px-4 py-2">{post.id}</td>
-              <td className="border border-slate-300 px-4 py-2">{post.title}</td>
-              <td className="border border-slate-300 px-4 py-2 truncate max-w-xs overflow-hidden" title={post.body}>
-                {post.body}
-              </td>
-              <td className="border border-slate-300 px-4 py-2">
-                <div className="flex space-x-2">
-                  <Link
-                    className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                    to={`/posts/${post.id}`}
-                  >
-                    Edit{" "}
-                  </Link>
-                  <button
-                    className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-                    onClick={() => deletePosts(post.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </td>
-            </tr>
+            <>
+              <Pagination length={post.length} postsPerPage={postsPerPage} handlePagination={handlePagination} />
+              <tr key={index}>
+                <td className="border border-slate-300 px-4 py-2">{post.id}</td>
+                <td className="border border-slate-300 px-4 py-2">{post.title}</td>
+                <td className="border border-slate-300 px-4 py-2 truncate max-w-xs overflow-hidden" title={post.body}>
+                  {post.body}
+                </td>
+                <td className="border border-slate-300 px-4 py-2">
+                  <div className="flex space-x-2">
+                    <Link
+                      className="rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                      to={`/posts/${post.id}`}
+                    >
+                      Edit{" "}
+                    </Link>
+                    <button
+                      className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                      onClick={() => deletePosts(post.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </>
           ))}
         </tbody>
       </table>
