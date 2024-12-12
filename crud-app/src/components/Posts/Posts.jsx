@@ -2,12 +2,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Pagination from "../Pages/Pagination/Pagination";
+import { useDispatch } from "react-redux";
+import { removePosts } from "../../store/actions/Actions";
 
 const Posts = () => {
   const [data, setData] = useState([]); // Holds all data
   const [currentPage, setCurrentPage] = useState(1); // Tracks current page
   const [postsPerPage] = useState(10); // Number of posts per page
 
+  const dispatch = useDispatch();
   useEffect(() => {
     fetchPostsData();
   }, []);
@@ -24,12 +27,10 @@ const Posts = () => {
 
   const deletePosts = async (postId) => {
     try {
-      const response = await fetch(
-        `https://jsonplaceholder.typicode.com/posts/${postId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`, {
+        method: "DELETE",
+      });
+      dispatch(removePosts(response));
       if (response.ok) {
         alert("Post Deleted");
         fetchPostsData();
@@ -72,10 +73,7 @@ const Posts = () => {
             <tr key={post.id}>
               <td className="border border-slate-300 px-4 py-2">{post.id}</td>
               <td className="border border-slate-300 px-4 py-2">{post.title}</td>
-              <td
-                className="border border-slate-300 px-4 py-2 truncate max-w-xs overflow-hidden"
-                title={post.body}
-              >
+              <td className="border border-slate-300 px-4 py-2 truncate max-w-xs overflow-hidden" title={post.body}>
                 {post.body}
               </td>
               <td className="border border-slate-300 px-4 py-2">

@@ -1,13 +1,16 @@
 import { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { addPosts } from "../../store/actions/Actions";
+import { useNavigate } from "react-router-dom";
 const PostsCreate = () => {
   const [formData, setFormData] = useState({
     title: null,
     about: null,
   });
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (!value.trim()) {
@@ -20,7 +23,6 @@ const PostsCreate = () => {
       [name]: value,
     }));
     // Validate if the input is not empty
-   
   };
 
   const handleSubmit = async (e) => {
@@ -37,6 +39,8 @@ const PostsCreate = () => {
         });
         const data = await response.json();
         console.log(data);
+        dispatch(addPosts(data));
+        navigate("/");
       } catch (error) {
         console.log(error);
       } finally {

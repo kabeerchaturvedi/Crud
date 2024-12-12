@@ -12,7 +12,7 @@ function App() {
       <h2 className="text-3xl text-center">This is Posts</h2>
       <BrowserRouter>
         <Routes>
-          <Route path="/posts" element={<Posts />} />
+          <Route path="/" element={<Posts />} />
           <Route path="/posts/add" element={<PostsCreate />} />
           <Route path="/posts/:id" element={<PostsUpdate />} />
           {/* Error */}
